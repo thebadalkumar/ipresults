@@ -26,7 +26,7 @@ SECRET_KEY = '2*4h*@c2u=n_qkpqj)qr)w6^^apsyb=ntpd80b-9cd3@br-pv)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["resultexplorer.herokuapp.com","resultexplorerbot.herokuapp.com",'127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'bciit.onrender.com']
 
 
 # Application definition
