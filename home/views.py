@@ -188,54 +188,54 @@ def notice(request):
 
 # delete the files and the object
 def delete_upload(request,pk):
-    if request.user.is_superuser:
-        upload = rsFiles.objects.get(pk=pk)
-        upload.delete()
-        return redirect(upload_list)
-    else:
-        raise Http404
+    # if request.user.is_superuser:
+    upload = rsFiles.objects.get(pk=pk)
+    upload.delete()
+    return redirect(upload_list)
+    # else:
+    #     raise Http404
 
 def edit_upload(request,pk):
-    if request.user.is_superuser:
-        upload = rsFiles.objects.get(pk=pk)
-        if request.method != 'POST':
-            form = UploadForm(instance=upload)
-        else:
-            form = UploadForm(instance=upload, data=request.POST, files=request.FILES)
-            if form.is_valid():
-                form.save()
-                return redirect('upload_list')
-        context = {'form': form}
-        return render(request,'home/edit_upload.html', context)
+    # if request.user.is_superuser:
+    upload = rsFiles.objects.get(pk=pk)
+    if request.method != 'POST':
+        form = UploadForm(instance=upload)
     else:
-        raise Http404
+        form = UploadForm(instance=upload, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_list')
+    context = {'form': form}
+    return render(request,'home/edit_upload.html', context)
+    # else:
+    #     raise Http404
 
 # see the list of uploaded files 
 def upload_list(request):
-    if request.user.is_superuser:
-        uploads = rsFiles.objects.all()
-        return render(request, 'home/uploadlist.html', {
-            'uploads': uploads
-        })
-    else:
-        raise Http404
+    # if request.user.is_superuser:
+    uploads = rsFiles.objects.all()
+    return render(request, 'home/uploadlist.html', {
+        'uploads': uploads
+    })
+    # else:
+    #     raise Http404
 
 # upload the json files (storage)
 def upload(request):
-    if request.user.is_superuser:
-        if request.method == 'POST':
-            form = UploadForm(request.POST, request.FILES)
-            # if form.is_valid():
-            #     print("HI")
-            form.save()
-            return redirect('upload_list')
-        else:
-            form = UploadForm()
-        return render(request, 'home/upload.html', {
-            'form': form
-        })
+    # if request.user.is_superuser:
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        # if form.is_valid():
+        #     print("HI")
+        form.save()
+        return redirect('upload_list')
     else:
-        raise Http404
+        form = UploadForm()
+    return render(request, 'home/upload.html', {
+        'form': form
+    })
+    # else:
+    #     raise Http404
 
 def acronym(str):
     phrase = (str.replace('OF', '').replace('FOR', '').replace('&', '').replace('AND', '').replace(',','')).split()
