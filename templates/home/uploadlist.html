@@ -1,0 +1,66 @@
+{% extends 'index/base.html' %}{% load static %}{% block title %} Upload json files to database {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/upload.css' %}" rel="stylesheet" /> {% endblock stylesheets %} {% block content %}
+
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <h2 class="text-white display-4">Uploaded Files</h2>
+            <div class="col-xl-12 col-lg-12 border bg-white p-4 " style="border-radius: 4px;">
+                <p>
+                    <a href="{% url 'upload' %}" class="btn btn-primary">Upload files</a>
+                </p>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Year</th>
+                            <th>Link</th>
+                            <th>Delete</th>
+                            <th>Add</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if uploads %} {% for upload in uploads %}
+                        <tr>
+                            <td>{{ upload.course }}</td>
+                            <td>{{ upload.year }}</td>
+                            <td>
+                                <a href="{{ upload.pdf.url }}" class="btn btn-primary btn-sm">
+                                    Data
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'delete_upload' upload.pk %}" class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'upload_to_db' upload.pk %}" class="btn btn-success btn-sm">
+                                    Add
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'edit_upload' upload.pk %}" class="btn btn-primary btn-sm">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %} {% else %}
+                        <tr>
+                            <td class="" style="text-align:center" colspan="6">The List is Empty
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                {{count}}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

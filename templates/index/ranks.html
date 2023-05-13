@@ -1,0 +1,148 @@
+{% extends 'index/base.html' %}{% block title %}Ranks{% endblock %} {% block content %}
+<main>
+    <article class="container article">
+
+        <h2 class="h2 article-title greet">Hi Student</h2>
+
+        <p class="article-subtitle">Find Your College or University Rank!</p>
+
+        <!-- HOME -->
+
+        <section class="home" style="grid-template-columns: none;">
+
+            <div class="card profile-card">
+
+                <form class="rankFrm" method="get">
+                    <div class="frmcontainer">
+
+                        <label for="course"><b>Select Course</b></label>
+                        <select name="course">
+                            {% for i in course %}
+                                <option value="{{i.short}}">{{i.short}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="batch"><b>Select Batch</b></label>
+                        <select name="batch">
+                            {% for i in batch %}
+                                <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="inst"><b>Select Institution</b></label>
+                        <select name="inst" id="inst">
+                            <option value="all">ALL</option>
+                            {% for i in inst %}
+                                <option value="{{i.code}}">{{i.name}}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="sem"><b>Select Semester</b></label>
+                        <select name="sem">
+                            <option value="all">ALL</option>
+                            <option value="1">SEMESTER 1</option>
+                            <option value="2">SEMESTER 2</option>
+                            <option value="3">SEMESTER 3</option>
+                            <option value="4">SEMESTER 4</option>
+                            <option value="5">SEMESTER 5</option>
+                            <option value="6">SEMESTER 6</option>
+                        </select>
+
+                        <div class="clearfix">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="material-symbols-outlined">search</span>                                
+                                <span class="btn-inner--text">Search</span>                                        
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+
+            <div class="card revenue-card">
+                <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn="">
+                    <span class="material-symbols-rounded  icon">more_horiz</span>
+                </button>
+                <ul class="ctx-menu">
+                    <li class="ctx-item">
+                        <button class="ctx-menu-btn icon-box" onclick="export_table_to_csv(document.getElementById('rankTbl').outerHTML, 'ranks.csv')">
+                            <span class="material-symbols-rounded  icon" aria-hidden="true">file_download</span>
+
+                            <span class="ctx-menu-text">Export</span>
+                        </button>
+                    </li>
+
+                </ul>
+                <p class="card-title">Performance</p>
+                <!-- <div class="divider card-divider"></div> -->
+
+                <table class="table" id="rankTbl"></table>
+
+            </div>
+
+        </section>
+
+
+    </article>
+</main>
+{% endblock %} {% block js %}
+<script>
+    // document.querySelector('.rankFrm').addEventListener('submit', function(event) {
+    //     var fdata = JSON.stringify(serializeForm(event.target))
+    //     url = `college/rank?course=bca&batch=${fdata["batch"]}&inst=${fdata["inst"]}&sem=${fdata["sem"]}`
+    //     if (fdata["inst"] == "all")
+    //         url = `university/rank?course=bca&batch=${fdata["batch"]}&inst=${fdata["inst"]}&sem=${fdata["sem"]}`
+    //     showRank(url)
+    //     console.log(url)
+    //     event.preventDefault();
+    // });
+    document.addEventListener('submit', function(event) {
+
+        event.preventDefault();
+
+        inst = document.getElementById("inst").value;
+        if (inst == "all")
+            showRank("/university/rank/", true)
+        else showRank("/college/rank/")
+    });
+
+    function showRank(url, all = false) {
+        table = document.getElementById("rankTbl")
+        fetch(url, {
+            method: 'POST',
+            body: new FormData(event.target),
+        }).then(function(response) {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(function(data) {
+            // data = data
+            TR = data["tr"]
+            DATA = data["data"]
+            HTML = "<thead class='thead-dark'>"
+
+            if (all) {
+                HTML += `<tr><td>${TR[0]}</td><td>${TR[1]}</td><td>${TR[2]}</td><td>${TR[3]}</td><td>${TR[4]}</td></tr>`
+                HTML += "</thead></tbody>"
+                for (var i in DATA) {
+                    HTML += `<tr><td><a href='/result/?query=${DATA[i].enroll}'>${DATA[i].enroll}</a></td><td>${DATA[i].name}</td><td>${DATA[i].inst}</td><td>${DATA[i].total}</td><td>${DATA[i].rank}</td></tr>`;
+                }
+            } else {
+                HTML += `<tr style="display:none;"><td colspan='4' style="text-align:center;">${TR[0]}</td></tr>`
+                HTML += `<tr style="background:#272735;"><td>${TR[1]}</td><td>${TR[2]}</td><td>${TR[3]}</td><td>${TR[4]}</td></tr>`
+                HTML += "</thead></tbody>"
+                for (var i in DATA) {
+                    HTML += `<tr><td><a href='/result/?query=${DATA[i].enroll}'>${DATA[i].enroll}</a></td><td>${DATA[i].name}</td><td>${DATA[i].total}</td><td>${DATA[i].rank}</td></tr>`;
+                }
+            }
+            HTML += "</tbody>"
+            table.innerHTML = HTML;
+        }).catch(function(error) {
+            console.warn(error);
+        });
+    }
+</script>
+{% endblock %}

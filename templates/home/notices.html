@@ -1,0 +1,98 @@
+{% extends 'index/base.html' %}{% load static %}
+{% block title %}Notices{% endblock %}
+<!-- Specific CSS goes HERE -->
+{% block content %}
+<style>
+    #notices tr>*:nth-child(2) {
+        display: none;
+    }
+</style>
+<main>
+    <article class="container article">
+        <!-- HOME -->
+
+        <section class="home" style="grid-template-columns: none;">
+            <div class="card revenue-card">
+                <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn="">
+                    <span class="material-symbols-rounded  icon">more_horiz</span>
+                </button>
+                <ul class="ctx-menu">
+                    <li class="ctx-item">
+                        <button class="ctx-menu-btn icon-box" onclick="export_table_to_csv(document.getElementById('notices').outerHTML, 'notices.csv')">
+                            <span class="material-symbols-rounded  icon" aria-hidden="true">file_download</span>
+
+                            <span class="ctx-menu-text">Export</span>
+                        </button>
+                    </li>
+
+                </ul>
+                <p class="card-title">Notices</p>
+                <!-- <div class="divider card-divider"></div> -->
+
+                <table class="table" id="notices">
+
+                    <thead class='thead-dark'>
+                        <tr>
+                            <td>Notice</td>
+                            <td>Url</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for notice in data %}
+                        <tr>
+                            <td><a href="{{notice.url}}">[{{notice.date}}] {{notice.title}}</a></td>
+                            <td>{{notice.url}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+              <div class="pagination">
+                {% if page_obj.has_previous %}
+                  <a href="?page={{ page_obj.previous_page_number }}">«</a>
+
+                  {% if page_obj.number > 3 %}
+                    <a href="?page=1">1</a>
+                    {% if page_obj.number > 4 %}
+                      <span>...</span>
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                  {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                    <span>...</span>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                  {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+                    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                  {% endif %}
+
+                  <a href="?page={{ page_obj.next_page_number }}">»</a>
+                {% endif %}
+              </div>
+                <!-- Pagination -->
+
+            </div>
+
+        </section>
+    </article>
+</main>
+{% endblock content %} {% block js %}
+<script>
+    // document.querySelector("button").addEventListener("click", function() {
+    //     var html = document.querySelector("table").outerHTML;
+    //     export_table_to_csv(html, "table.csv");
+    // });
+</script>
+{% endblock js %}

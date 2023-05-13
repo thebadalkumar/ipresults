@@ -1,0 +1,235 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/static/favicon.svg" type="image/svg+xml">
+
+    <!-- custom css link -->
+    <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/custom.css">
+
+    <!-- google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;900&amp;display=swap" rel="stylesheet">
+
+    <!-- material icon link -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header" data-header="">
+        <div class="container">
+
+            <h1>
+                <a class="logo">IPU Results</a>
+            </h1>
+
+            <button class="menu-toggle-btn icon-box" data-menu-toggle-btn="" aria-label="Toggle Menu">
+        <span class="material-symbols-rounded icon">menu</span>
+      </button>
+
+            <nav class="navbar">
+                <div class="container">
+
+                    <ul class="navbar-list">
+
+                        <li>
+                            <a href="/" class="navbar-link icon-box active">
+                                <span class="material-symbols-rounded icon">grid_view</span>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/search" class="navbar-link icon-box ">
+                                <span class="material-symbols-rounded icon">search</span>
+                                <span>Search</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ranks" class="navbar-link icon-box ">
+                                <span class="material-symbols-rounded icon">bar_chart</span>
+                                <span>Rank</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/notices" class="navbar-link icon-box">
+                                <span class="material-symbols-rounded icon">ballot</span>
+                                <span>Notices</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="navbar-link icon-box">
+                                <span class="material-symbols-rounded icon">smart_toy</span>
+                                <span>Bot</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                    <ul class="user-action-list">
+
+                        <li>
+                            <a href="#" class="notification icon-box">
+                                <span class="material-symbols-rounded icon">notifications</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="btn btn-primary">
+                                <span class="material-symbols-outlined">contact_support</span>
+                                <span class="btn-inner--text">Contact Us</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main style="top:50%;left: 50%;transform: translate3d(-50%,-50%, 0);position: absolute;width:100%">
+        <article class="container article">
+
+            <h2 class="h2 article-title greet">Hi, Good Evening</h2>
+
+            <p class="article-subtitle">Welcome to IPU Results</p>
+
+            <section class="home" style="grid-template-columns: none;">
+                <div class="card">
+                    <!--  -->
+                    <form name="myForm" onsubmit="return validateForm()" action="/result">
+                        <div class="form-group row">
+                            <input type="text" name="query" class="form-control text-primary text-center col-md-12 col-sm-10 mx-auto font-weight-bold" id="enroll" placeholder="Enter Enrollment Number" autocomplete="off" title="Enter Enrollment Number" maxlength="13" required="">
+                        </div>
+
+                        <div class="card-badge red" style="display:none;padding: 10px;margin-bottom: 20px;" id="alertbox">
+                            <div class="contact-link icon-box"><span class="material-symbols-rounded icon" style="color: #f1444c;">warning</span>
+                                <p class="text" id="alert" style="color: #f1444c;"></p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">
+                        <span class="material-symbols-outlined">search</span>                                
+                        <span class="btn-inner--text">Search</span>                                        
+                    </button>
+                    </form>
+                    <!--  -->
+                </div>
+            </section>
+        </article>
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container">
+
+            <ul class="footer-list">
+
+                <li class="footer-item">
+                    <a onclick="ShowModal('modal-abt')" class="footer-link">About</a>
+                </li>
+
+                <li class="footer-item">
+                    <a href="#" class="footer-link">Privacy</a>
+                </li>
+
+                <li class="footer-item">
+                    <a href="#" class="footer-link">Disclaimer</a>
+                </li>
+                <li class="footer-item">
+                    <a href="#" class="footer-link">Feedback</a>
+                </li>
+
+            </ul>
+
+            <p class="copyright">
+                © 2022 <a class="copyright-link">IPU Results</a>. All Rights Reserved
+            </p>
+
+        </div>
+    </footer>
+
+    <div class="modal__container" id="modal-abt" onclick="closeModal('modal-abt')">
+        <div class="modal__content" onclick="stopevent(event)">
+            <div class="modal__close" title="Close" onclick="closeModal('modal-abt')">
+                <span class="material-symbols-rounded icon">close</span>
+            </div>
+            <h1 class="modal__title modal-header">About</h1>
+            <article class="container article">
+                <h2 class="h2 article-title greet">GGSIPU Result Explorer</h2>
+                <p class="article-subtitle">Created By <b>Badal Kumar</b></p>
+            </article>
+            <button class="modal__button-link" onclick="closeModal('modal-abt')">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- custom js link -->
+    <script src="/static/assets/js/script.js"></script>
+    <script src="/static/assets/js/custome.js"></script>
+
+
+    <script>
+        var welcome;
+        var date = new Date();
+        var hour = date.getHours();
+        if (hour < 12) {
+            welcome = "Good Morning";
+        } else if (hour < 17) {
+            welcome = "Good Afternoon";
+        } else {
+            welcome = "Good Evening";
+        }
+        document.querySelector(".greet").innerHTML = `Hi, ${welcome}`;
+
+        function validateForm() {
+            var x = document.getElementById('enroll').value;
+            var alert = document.getElementById('alert');
+            var alertbox = document.getElementById('alertbox');
+            var letterNumber = /[a-zA-Z]+/;
+
+            if (x.match(letterNumber)) {
+                alert.innerHTML = `The enrollment number should not contain letters`;
+                alertbox.style.display = "block";
+                return false;
+            }
+            if (x.length != 11) {
+                alert.innerHTML = `The enrollment number must be of 11 digits`;
+                alertbox.style.display = "block";
+                return false;
+            }
+            var letterNumber = /^[0-9]+$/;
+            if (!x.match(letterNumber)) {
+                alert.innerHTML = `The enrollment number should not contain any special characters`;
+                alertbox.style.display = "block";
+                return false;
+            }
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>

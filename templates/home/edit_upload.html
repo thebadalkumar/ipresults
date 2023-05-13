@@ -1,0 +1,53 @@
+{% extends 'index/base.html' %}{% load static %}{% block title %} Upload json files to database {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link href="{% static 'assets/css/upload.css' %}" rel="stylesheet" /> {% endblock stylesheets %} {% block content %}
+
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="col-xl-12 col-lg-12">
+                <form id="uploader" class="border uploader bg-white p-5" style="border-radius: 1%;" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <p class="h4 mb-4 chirag display-3">Upload JSON Result File</p>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label lblinput" for="form1">Course</label>
+                        <div class="col-sm-9">
+                            {{form.course}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label lblinput" for="form1">Year</label>
+                        <div class="col-sm-9">
+                            {{form.year}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label lblinput" for="form1">Exam Type</label>
+                        <div class="col-sm-9">
+                            {{form.examination}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label lblinput" for="form1">Batch</label>
+                        <div class="col-sm-9">
+                            {{form.batch}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock content %}

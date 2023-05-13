@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - IPU Results</title>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/icon">
+
+    <!-- custom css link -->
+    <link rel="stylesheet" href="https://unpkg.com/@ivteplo/utilities.css@1.0.0/build/main.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/custom.css">
+
+    <!-- google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;900&display=swap" rel="stylesheet">
+
+    <!-- material icon link -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header" data-header>
+        <div class="container">
+
+            <h1>
+                <a class="logo">IPU Results</a>
+            </h1>
+
+            <button class="menu-toggle-btn icon-box" data-menu-toggle-btn aria-label="Toggle Menu">
+        <span class="material-symbols-rounded icon">menu</span>
+      </button>
+
+            <nav class="navbar">
+                <div class="container">
+
+                    <ul class="navbar-list">
+
+                        <li>
+                            <a href="/" class="navbar-link icon-box {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                                <span class="material-symbols-rounded icon">grid_view</span>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/search" class="navbar-link icon-box {% if request.resolver_match.url_name == 'search' %}active{% endif %}">
+                                <span class="material-symbols-rounded icon">search</span>
+                                <span>Search</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ranks" class="navbar-link icon-box {% if request.resolver_match.url_name == 'rank' %}active{% endif %}">
+                                <span class="material-symbols-rounded icon">bar_chart</span>
+                                <span>Rank</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/notices" class="navbar-link icon-box">
+                                <span class="material-symbols-rounded icon">ballot</span>
+                                <span>Notices</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="ShowModal('modal-bot')" class="navbar-link icon-box">
+                                <span class="material-symbols-rounded icon">smart_toy</span>
+                                <span>Bot</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+
+                    <ul class="user-action-list">
+
+                        <li>
+                            <a href="#" class="notification icon-box">
+                                <span class="material-symbols-rounded icon">notifications</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="btn btn-primary">
+                                <span class="material-symbols-outlined">contact_support</span>
+                                <span class="btn-inner--text">Contact Us</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </nav>
+
+        </div>
+    </header>
+
+    {% block content %} {% endblock %}
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+        <div class="container">
+
+            <ul class="footer-list">
+
+                <li class="footer-item">
+                    <a onclick="ShowModal('modal-abt')" class="footer-link">About</a>
+                </li>
+
+                <li class="footer-item">
+                    <a href="/ranks" class="footer-link">Rank</a>
+                </li>
+
+                <li class="footer-item">
+                    <a href="/notices" class="footer-link">Notices</a>
+                </li>
+                <li class="footer-item">
+                    <a onclick="ShowModal('modal-bot')" class="footer-link">Bot</a>
+                </li>
+
+            </ul>
+
+            <p class="copyright">
+                &copy; 2018 - {% now 'Y' %} <a class="copyright-link">IPU Results</a>. All Rights Reserved
+            </p>
+
+        </div>
+    </footer>
+
+    <div class="modal__container" id="modal-abt" onclick="closeModal('modal-abt')">
+        <div class="modal__content" onclick="stopevent(event)">
+            <div class="modal__close" title="Close" onclick="closeModal('modal-abt')">
+                <span class="material-symbols-rounded icon">close</span>
+            </div>
+            <h1 class="modal__title modal-header">About</h1>
+            <article class="container article">
+                <h2 class="h2 article-title greet">GGSIPU Result Explorer</h2>
+                <p class="article-subtitle">Created By <b>Badal Kumar</b></p>
+            </article>
+            <button class="modal__button-link" onclick="closeModal('modal-abt')">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <div class="modal__container" id="modal-bot" onclick="closeModal('modal-bot')">
+        <div class="modal__content" onclick="stopevent(event)">
+            <div class="modal__close" title="Close" onclick="closeModal('modal-bot')">
+                <span class="material-symbols-rounded icon">close</span>
+            </div>
+            <h1 class="modal__title modal-header">BOT</h1>
+            <article class="container article">
+                <h2 class="h2 article-title greet">GGSIPU Result Explorer</h2>
+                <p class="article-subtitle">Search <u><b>BCIIT</b>BOT</u> on Telegram</p>
+            </article>
+            <button class="modal__button-link" onclick="closeModal('modal-bot')">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- custom js link -->
+    <script src="/static/assets/js/script.js"></script>
+    <script src="/static/assets/js/custome.js"></script>
+
+    {% block js %}{% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,371 @@
+{% extends 'index/base.html' %} {% block content %}
+<main>
+    <article class="container article">
+
+        <h2 class="h2 article-title greet">Hi Student</h2>
+
+        <p class="article-subtitle">Welcome to Dashboard!</p>
+
+        <!-- HOME -->
+
+        <section class="home">
+
+            <div class="card profile-card">
+
+                <div class="profile-card-wrapper">
+
+                    <figure class="card-avatar">
+                        <img class="pic" width="48" height="48">
+                    </figure>
+
+                    <div>
+                        <p class="card-title enroll">0</p>
+                        <p class="card-subtitle name"></p>
+                    </div>
+
+                </div>
+
+                <ul class="contact-list">
+
+                    <li>
+                        <a class="contact-link icon-box">
+                            <span class="material-symbols-rounded icon">apartment</span>
+                            <p class="text college"></p>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="contact-link icon-box">
+                            <span class="material-symbols-rounded icon">school</span>
+                            <p class="text degree">Bachelor of Computer Application (2018)</p>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="divider card-divider"></div>
+
+                <ul class="progress-list">
+                    <li class="progress-item">
+                        <div class="progress-label">
+                            <p class="progress-title">Percentage</p>
+                            <data class="progress-data percentage">0%</data>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress percentageProgress"></div>
+                        </div>
+                    </li>
+
+                    <li class="progress-item">
+                        <div class="progress-label">
+                            <p class="progress-title">Equivalent Percentage</p>
+                            <data class="progress-data epercentage">0%</data>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress epercentageProgress"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+
+            <div class="card revenue-card">
+
+                <p class="card-title">Performance</p>
+                <div class="divider card-divider"></div>
+                <!-- <data class="card-price" value="9.16">9.16</data>
+                    <p class="card-text">A+</p> -->
+                <ul class="revenue-list">
+
+                    <li class="revenue-item icon-box">
+                        <span class="material-symbols-rounded icon  green">stars</span>
+                        <div>
+                            <data class="revenue-item-data totalMarks">0/0</data>
+                            <p class="revenue-item-text">Total Marks</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="divider card-divider"></div>
+                <ul class="revenue-list">
+                    <li class="revenue-item icon-box">
+                        <span class="material-symbols-outlined icon  green">local_police</span>
+                        <div>
+                            <data class="revenue-item-data totalCredit">0/0</data>
+                            <p class="revenue-item-text">Credit Score</p>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <ul class="revenue-list">
+
+                    <li class="revenue-item icon-box">
+                        <span class="material-symbols-rounded icon  green">stars</span>
+                        <div>
+                            <data class="revenue-item-data" value="10">10</data>
+                            <p class="revenue-item-text">College Rank</p>
+                        </div>
+                    </li>
+
+                    <li class="revenue-item icon-box">
+                        <span class="material-symbols-outlined icon  green">local_police</span>
+                        <div>
+                            <data class="revenue-item-data">0</data>
+                            <p class="revenue-item-text">University Rank</p>
+                        </div>
+                    </li>
+                </ul> -->
+
+            </div>
+
+            <div class="card revenue-card">
+
+                <p class="card-title">CGPA</p>
+                <div class="divider card-divider"></div>
+                <data class="card-price cgpa" style="font-size: 4rem;text-align: center;margin-top: 35px;">0</data>
+                <p class="card-text cgpaRemark" style="text-align: center;">O</p>
+            </div>
+
+        </section>
+
+
+
+
+        <!-- PROJECTS -->
+
+        <section class="projects">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">Semester Performance</h2>
+                <a class="btn btn-link icon-box" id="report">
+                    <span>Marksheet</span>
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">file_download</span>
+                </a>
+            </div>
+            <ul class="project-list semester">
+            </ul>
+        </section>
+
+
+    </article>
+</main>
+{% endblock %} {% block js %} {{ student|json_script:"data" }}
+<script src="/static/assets/js/data.js"></script>
+<script>
+    function getData(roll_num) {
+        // Intialization
+        totalMarks = 0;
+        totalSubMarks = 0;
+        totalSemester = 0;
+        cgpa = 0;
+        percentage = 0;
+        totalCredit = 0;
+        creditScore = 0;
+        // All Variable
+        DOMgreet = document.querySelector(".greet");
+        DOMenroll = document.querySelector(".enroll");
+        DOMimg = document.querySelector(".pic")
+        DOMstudent = document.querySelector(".name");
+        DOMcollege = document.querySelector(".college");
+        DOMdegree = document.querySelector(".degree");
+        DOMtotalMarks = document.querySelector(".totalMarks");
+        DOMtotalCredit = document.querySelector(".totalCredit");
+        DOMcgpa = document.querySelector(".cgpa");
+        DOMcgpaRemark = document.querySelector(".cgpaRemark");
+        DOMpercentage = document.querySelector(".percentage");
+        DOMepercentage = document.querySelector(".epercentage");
+        DOMpercentageProg = document.querySelector(".percentageProgress");
+        DOMepercentageProg = document.querySelector(".epercentageProgress");
+        DOMsemester = document.querySelector(".semester");
+        DOMReport = document.getElementById("report");
+        // create XHR object
+        fetch(`/result/${roll_num}/?format=json`)
+            .then(function(response) {
+                // Successfull fetch return as json
+                return response.json();
+            })
+            .then(function(data) {
+                //console.log(data)
+                // Data now contains the json
+                myname = titleCase(data.name);
+                rollNum = data.enrollment
+                DOMgreet.innerHTML = `Hi ${myname}`
+                DOMenroll.innerHTML = `${rollNum}`
+                DOMstudent.innerHTML = `${myname}`
+                    // DOMimg.forEach(c => c.src = `/static/assets/images/${rollNum}.jpg`)
+                DOMimg.alt = `${myname[0]}`
+                DOMimg.src = `/static/${data.batch}/${rollNum}.jpg`
+                DOMcollege.innerHTML = `${titleCase(data.institution)}`
+                DOMdegree.innerHTML = `${titleCase(data.course)} (${data.batch})`
+                semester = data.semester
+                totalSemester = Object.keys(semester).length
+                DOMReport.href = `/pdf?query=${data.enrollment}`
+                    // Marks
+                HTML = "";
+                // tempPercent = 0;
+                for (var i in semester) {
+                    apiTotal = semester[i].total
+                    apiMarks = semester[i].marks
+                    apiPercent = semester[i].percentage
+                        // tempPercent += apiPercent
+                    subLength = Object.keys(apiMarks).length
+                    totalSubMarks += subLength
+                    totalMarks += apiTotal
+                    cs = 0
+                    tc = 0
+                    s1 = 0;
+
+                    marksTable = "<table class='modal__description table'><thead class='thead-dark pc'><tr><td>Subject</td><td>Minor</td><td>Major</td><td>Total</td><td>Grade</td></tr></thead><thead class='thead-dark phone'><tr><td>Subject</td><td>Int.</td><td>Ext.</td><td>Tot.</td><td>Grade</td></tr></thead><tbody>"
+                    for (var j in apiMarks) {
+                        backlogCls = "";
+
+                        minor = apiMarks[j].minor;
+                        major = apiMarks[j].major;
+                        tmarks = apiMarks[j].total;
+                        sgrade = apiMarks[j].grade;
+
+                        if (minor == null) minor = "-"
+                        if (major == null) major = "-"
+
+                        tc += apiMarks[j].paper_credit
+                        totalCredit += apiMarks[j].paper_credit
+                        if (tmarks >= 40) {
+                            cs += apiMarks[j].paper_credit
+                            creditScore += apiMarks[j].paper_credit
+                        } else {
+                            backlogCls = "backlog"
+                            sgrade = "F"
+                        }
+                        s1 += apiMarks[j].paper_credit * grade(tmarks)[0]
+                        marksTable += `<tr class="${backlogCls}"><td>${apiMarks[j].paper_id}</td><td>${minor}</td><td>${major}</td><td>${tmarks}</td><td>${sgrade}</td></tr>`
+                    }
+                    marksTable += "</tbody></table>"
+
+                    if (semester[i].backlog.length > 0) {
+                        marksTable += "<table class='table'><thead class='thead-dark'><tr><td colspan='5' style='text-align:center'>Backlog Data</td></tr></thead><thead class='thead-dark pc'><tr><td>Subject</td><td>Minor</td><td>Major</td><td>Total</td><td>Grade</td></tr></thead><thead class='thead-dark phone'><tr><td>Subject</td><td>Int.</td><td>Ext.</td><td>Tot.</td><td>Grade</td></tr></thead><tbody>"
+                        for (var back in semester[i].backlog) {
+
+                            minor = semester[i].backlog[back].minor;
+                            major = semester[i].backlog[back].major;
+                            tmarks = semester[i].backlog[back].total;
+                            sgrade = semester[i].backlog[back].grade;
+
+                            if (minor == null) minor = "-"
+                            if (major == null) major = "-"
+
+                            if (tmarks < 40)
+                                sgrade = "F"
+
+                            marksTable += `<tr><td>${semester[i].backlog[back].paper_id}</td><td>${minor}</td><td>${major}</td><td>${tmarks}</td><td>${sgrade}</td></tr>`
+                        }
+                        marksTable += "</tbody></table>"
+                    }
+
+                    cgpa += s1 / tc
+
+                    HTML += `<li class="project-item">
+                                <div class="modal__container" id="modal-container${i}" onclick="closeModal('modal-container${i}')">
+                                    <div class="modal__content" onclick="stopevent(event)">
+                                        <div class="modal__close" title="Close" onclick="closeModal('modal-container${i}')">
+                                            <span class="material-symbols-rounded icon">close</span>
+                                        </div>
+                                        <h1 class="modal__title modal-header">Semester ${i}</h1>
+                                        ${marksTable}
+                                        <button class="modal__button-link" onclick="closeModal('modal-container${i}')">
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                        <div class="card project-card" onclick="ShowModal('modal-container${i}')">
+                            <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                                <span>${cs}/${tc}</span>
+                            </button>
+                            <time class="card-date" datetime="2022-04-09">Semester ${i}</time>
+                            <div class="card-progress-box">
+                                <div class="progress-label">
+                                    <span class="progress-title">${apiTotal}/${subLength}00</span>
+                                    <data class="progress-data">${apiPercent.toFixed(2)}%</data>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="--width: ${apiPercent}%; --bg: var(${apiPercent>=40 ? '--emerald' : '--imperial-red'});"></div>
+                                </div>
+                            </div>
+                            <div class="divider card-divider"></div>
+                            <ul class="revenue-lists">
+                                <li class="revenue-item icon-box">                                    
+                                    <div>
+                                        <data class="revenue-item-data">${(s1 / tc).toFixed(2)}</data>
+                                        <p class="revenue-item-text">SGPA</p>
+                                    </div>
+                                </li>
+                                <li class="revenue-item icon-box">
+                                    <div>
+                                        <data class="revenue-item-data" id="col-sem-${i}">0</data>
+                                        <p class="revenue-item-text">College Rank</p>
+                                    </div>
+                                </li>
+                                <li class="revenue-item icon-box">
+                                    <div>
+                                        <data class="revenue-item-data" id="uni-sem-${i}">0</data>
+                                        <p class="revenue-item-text">University Rank</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>`;
+                }
+                DOMpercentage.innerHTML = `${(totalMarks / totalSubMarks).toFixed(2)}%`
+                tempCGPA = (cgpa / totalSemester).toFixed(2)
+                DOMcgpa.innerHTML = `${tempCGPA}`
+                DOMcgpaRemark.innerHTML = `${grade(tempCGPA * 10)[1]}`
+                DOMepercentage.innerHTML = `${(tempCGPA * 10).toFixed(2)}%`
+                DOMpercentageProg.style.cssText = `--width: ${totalMarks / totalSubMarks}%; --bg: var(--blue-ryb);`
+                DOMepercentageProg.style.cssText = `--width: ${tempCGPA * 10}%; --bg: var(--coral);`
+                DOMtotalMarks.innerHTML = `${totalMarks} / ${totalSubMarks}00`
+                DOMtotalCredit.innerHTML = `${creditScore} / ${totalCredit}`
+                DOMsemester.innerHTML += HTML;
+            })
+            .catch(function(error) {
+                // A Error occured
+                console.log(error);
+            });
+
+        // Fetching College Rank
+        fetch(`/college/rank/${roll_num}/?format=json`)
+            .then(function(response) {
+                // Successfull fetch return as json
+                return response.json();
+            })
+            .then(function(data) {
+                for (var i in data) {
+                    document.getElementById(`col-sem-${i}`).innerHTML = data[i];
+                }
+            })
+            .catch(function(error) {
+                // A Error occured
+                console.log(error);
+            });
+        // Fetching University Rank
+        fetch(`/university/rank/${roll_num}/?format=json`)
+            .then(function(response) {
+                // Successfull fetch return as json
+                return response.json();
+            })
+            .then(function(data) {
+                for (var i in data) {
+                    document.getElementById(`uni-sem-${i}`).innerHTML = data[i];
+                }
+            })
+            .catch(function(error) {
+                // A Error occured
+                console.log(error);
+            });
+    }
+    student = getUrlParameter("query")
+    if (student == null || student == "" || student == undefined || student == true)
+        window.location = "/"
+    else
+        getData(student);
+</script>
+{% endblock %}

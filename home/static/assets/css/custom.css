@@ -1,0 +1,283 @@
+/* MODAL */
+
+:root {
+    /*========== Colors ==========*/
+    --hue: 240;
+    --first-color: hsl(var(--hue), 16%, 18%);
+    --first-color-alt: hsl(var(--hue), 16%, 12%);
+    --title-color: hsl(var(--hue), 8%, 15%);
+    --text-color: hsl(var(--hue), 8%, 35%);
+    --body-color: hsl(var(--hue), 100%, 99%);
+    --container-color: #FFF;
+    /*========== Font and typography ==========*/
+    --body-font: 'Poppins', sans-serif;
+    --big-font-size: 1.5rem;
+    --normal-font-size: .938rem;
+    /*========== z index ==========*/
+    --z-modal: 1000;
+}
+
+@media screen and (min-width: 968px) {
+     :root {
+        --big-font-size: 1.75rem;
+        --normal-font-size: 1rem;
+    }
+}
+
+.modal {
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.modal__container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: hsla(var(--hue), 0%, 0%, .6);
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: flex-end;
+    overflow: hidden;
+    transition: all .3s;
+    z-index: var(--z-modal);
+    visibility: hidden;
+    opacity: 0;
+    /*=== Effect 3 ===*/
+    /* perspective: 1000px; */
+}
+
+.modal__content {
+    position: relative;
+    background-color: var(--container-color);
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-radius: 1rem 1rem 0 0;
+    transition: all .3s;
+    /*=== Effect 1 ===*/
+    transform: translateY(10%);
+    /*=== Effect 2 ===*/
+    /* transform: scale(.5) translateY(10%); */
+    /*=== Effect 3 ===*/
+    /* transform: rotateX(65deg) scale(.75) translateY(10%);
+  transform-origin: 50% 100%; */
+}
+
+.modal__img {
+    width: 150px;
+    margin-bottom: .75rem;
+}
+
+.modal__close {
+    display: inline-flex;
+    background-color: var(--first-color);
+    border-radius: .25rem;
+    color: #FFF;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    cursor: pointer;
+}
+
+.modal__title {
+    font-size: var(--big-font-size);
+    color: var(--title-color);
+    font-weight: 500;
+}
+
+.modal__description {
+    margin-bottom: 1.5rem;
+}
+
+.modal__button-width {
+    width: 90%;
+}
+
+.modal__button-link {
+    display: block;
+    margin: 1rem auto 0;
+    background-color: transparent;
+    color: var(--first-color);
+    font-weight: 500;
+}
+
+
+/* Show modal */
+
+.show-modal {
+    visibility: visible;
+    opacity: 1;
+}
+
+.show-modal .modal__content {
+    /*=== Effect 1 ===*/
+    transform: translateY(0);
+    /*=== Effect 2 ===*/
+    /* transform: scale(1) translateY(0); */
+    /*=== Effect 3 ===*/
+    /* transform: rotateX(0) scale(1) translateY(0); */
+}
+
+
+/*=============== BREAKPOINTS ===============*/
+
+
+/* Tables */
+
+.table {
+    border-collapse: collapse;
+    border: none;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.table td {
+    text-align: center;
+}
+
+.table td:first-child,
+.table td:nth-child(2) {
+    text-align: left;
+}
+
+.thead-dark {
+    background-color: var(--first-color);
+    color: #FFF;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table th,
+.table td {
+    padding: .5rem .3rem;
+    border: none;
+}
+
+.table tr.backlog {
+    background-color: #ff00001f;
+}
+
+a {
+    cursor: pointer;
+}
+
+.modal-header {
+    position: relative;
+}
+
+.modal-header:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 130px;
+    height: 2px;
+    background: red;
+    transform: translateX(-65px)
+}
+
+
+/* For small devices */
+
+@media screen and (min-width: 576px) {
+    .modal__content {
+        margin: auto;
+        /* width: 380px; */
+        border-radius: 1.25rem;
+    }
+    .modal__img {
+        width: 170px;
+    }
+    .phone {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .modal__content {
+        padding: 3rem .5rem 2rem;
+        /* overflow: scroll; */
+    }
+    .modal__close {
+        right: .5rem;
+    }
+    .table {
+        font-size: .7rem;
+    }
+    .pc {
+        display: none;
+    }
+}
+
+
+/* Forms Style */
+
+
+/* Full-width input fields */
+
+input[type=text],
+input[type=password],
+select {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+
+/* Add padding to container elements */
+
+.frmcontainer {
+    padding: 16px;
+}
+
+
+/* Clear floats */
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+/* Forms Style */
+
+.pic {
+    color: #39b1c4;
+    background: #e2f4f7;
+}
+
+.profile-avatar img {
+    font-size: 1rem;
+}
+
+.card-avatar img {
+    font-size: 2rem;
+}
+
+
+/* pagination */
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+}
+
+
+/* pagination */

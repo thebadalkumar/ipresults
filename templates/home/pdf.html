@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{student.name}}-{{student.enrollment}}</title>
+    <style>
+        @page {
+            size: "A4";
+            margin: 2cm;
+        }
+        
+        div,
+        .caption,
+        th {
+            font-size: larger;
+        }
+        
+        .result {
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+        /* th {
+            font-size: larger;
+        } */
+        
+        .td {
+            text-align: center;
+            font-size: larger;
+        }
+        
+        img {
+            height: 80px;
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1 align="center">{{student.course}}</h1>
+        <table width="100%">
+            <tr>
+                <td width="80%"><span style="font-size:1rem;font-weight: bolder;">{{student.name}}</span>
+                    <br>{{student.enrollment}}
+                    <br> {{student.institution}}
+            </tr>
+        </table>
+    </div>
+    {% for semester, marks in student.semester.items %}
+    <div class="result">
+        <table width="100%" border="1" cellpadding=5>
+            <div class="caption" style="font-weight: bolder;text-align: center;">SEMESTER {{semester}} RESULT</div>
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 60%;text-align: left;">Subject</th>
+                    <th scope="col" style="width: 10%;">Internal</th>
+                    <th scope="col" style="width: 10%;">External</th>
+                    <th scope="col" style="width: 10%;">Total</th>
+                    <th scope="col" style="width: 10%;">Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for s, m in marks.marks.items %}
+                <tr>
+                    <td class="td" style="text-align: left;">
+                        {{s}}
+                    </td>
+                    <td class="td">{% if m.minor %}{{m.minor}}{% else %}-{% endif %}</td>
+                    <td class="td">{% if m.major %}{{m.major}}{% else %}-{% endif %}</td>
+                    <td class="td">{% if m.total %}{{m.total}}{% else %}-{% endif %}</td>
+                    <td class="td">{% if m.total >= 40 %}{{m.grade}}{% else %}F{% endif %}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        <table width="100%" cellpadding=10>
+            <tr>
+                <th style="width:25%">TOTAL</th>
+                <td class="td" style="width:25%;">{{marks.total}}</td>
+                <th style="width:25%;">PERCENTAGE</th>
+                <td class="td" style="width:25%;">{{marks.percentage|floatformat:2}}%</td>
+            </tr>
+        </table>
+    </div>
+    <pdf:nextpage>
+        {% endfor %}
+        <pdf:barcode value="Badal Kumar" type="code128" humanreadable="0" align="right"></pdf:barcode>
+        <br><br>
+
+        <fieldset style="margin-top:20px;padding: 22px;">
+
+            <p><span><b>Disclaimer:</b></span><br><br>The result shown above is not guarantee of correctness. It is extracted from PDF files by using script.<br> Confirm your results for any official use from IPU website.
+                <br><br>Some results may be not fully correct, if you find any mismatch in your result kindly send email to <a href="mailto:myselfbadalkumar@gmail.com">myselfbadalkumar@gmail.com</a>.
+            </p>
+        </fieldset>
+        <h1 align="center">RESULT EXPLORER</h1>
+        <hr width="25%">
+        <p style="margin-top:20px;padding: 22px;">{{time}}</p>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+{% extends 'index/base.html' %}{% block title %}Home{% endblock %}{% block content %}
+<main style="top:50%;left: 50%;transform: translate3d(-50%,-50%, 0);position: absolute;width:100%">
+    <article class="container article">
+
+        <h2 class="h2 article-title greet"></h2>
+
+        <p class="article-subtitle">Welcome to IPU Results</p>
+
+        <section class="home" style="grid-template-columns: none;">
+            <div class="card">
+                <!--  -->
+                <form name='myForm' onsubmit="return validateForm()" action="/result">
+                    <div class="form-group row">
+                        {{form.query}}
+                    </div>
+
+                    <div class="card-badge red" style="display:none;padding: 10px;margin-bottom: 20px;" id='alertbox'>
+                        <div class="contact-link icon-box"><span class="material-symbols-rounded icon" style="color: #f1444c;">warning</span>
+                            <p class="text" id="alert" style="color: #f1444c;"></p>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">
+                        <span class="material-symbols-outlined">search</span>                                
+                        <span class="btn-inner--text">Search</span>                                        
+                    </button>
+                </form>
+                <!--  -->
+            </div>
+        </section>
+    </article>
+</main>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block js %}
+<script>
+    var welcome;
+    var date = new Date();
+    var hour = date.getHours();
+    if (hour < 12) {
+        welcome = "Good Morning";
+    } else if (hour < 17) {
+        welcome = "Good Afternoon";
+    } else {
+        welcome = "Good Evening";
+    }
+    document.querySelector(".greet").innerHTML = `Hi, ${welcome}`;
+
+    function validateForm() {
+        var x = document.getElementById('enroll').value;
+        var alert = document.getElementById('alert');
+        var alertbox = document.getElementById('alertbox');
+        var letterNumber = /[a-zA-Z]+/;
+
+        if (x.match(letterNumber)) {
+            alert.innerHTML = `The enrollment number should not contain letters`;
+            alertbox.style.display = "block";
+            return false;
+        }
+        if (x.length != 11) {
+            alert.innerHTML = `The enrollment number must be of 11 digits`;
+            alertbox.style.display = "block";
+            return false;
+        }
+        var letterNumber = /^[0-9]+$/;
+        if (!x.match(letterNumber)) {
+            alert.innerHTML = `The enrollment number should not contain any special characters`;
+            alertbox.style.display = "block";
+            return false;
+        }
+    }
+</script>
+{% endblock js %}
